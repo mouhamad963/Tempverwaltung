@@ -97,7 +97,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': "tempverwaltung",
         'USER': "root",
-        'PASSWORD': "Wiz_sYh8wg3Croot",
+        'PASSWORD': "",
         'HOST': "localhost",
         'PORT': 3306,
         'CONN_MAX_AGE': int(os.environ.get('MYSQL_CONN_MAX_AGE', 3600)),
