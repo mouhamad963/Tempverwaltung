@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('temperatur_id', models.AutoField(primary_key=True, serialize=False)),
                 ('datum', models.DateTimeField(auto_now=True, help_text='Update Date')),
-                ('temperatur', models.IntegerField(default=1)),
+                ('temperatur', models.IntegerField()),
                 ('sensor', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='App.Sensors')),
             ],
             options={

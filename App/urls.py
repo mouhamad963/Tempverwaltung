@@ -13,4 +13,6 @@ router.register(r'temperaturen',TemperaturenView)
 
 urlpatterns = [
     path(r'', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
 ]

@@ -6,6 +6,9 @@ from django_filters.rest_framework.backends import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
+from django.contrib.auth.models import User
+
+
 # Create your views here.
 
 
@@ -27,8 +30,28 @@ class BenutzerView(viewsets.ModelViewSet):
 
     ordering_fields = ("name","anmeldename","telefonnr")
     
-    
-    
+    def create(self,request):
+            
+        name = self.request.data["name"]
+        anmeldename = self.request.data['anmeldename']
+        telefonnr = self.request.data['telefonnr']
+        
+        user = self.queryset.create(name=name,anmeldename=anmeldename,telefonnr=telefonnr)
+        user.save()
+        
+        u = User(username=anmeldename)
+        u.set_password("mnour123")
+        u.is_superuser = False
+        u.is_staff = False
+        try:
+            u.save()
+        except Exception:
+            pass
+        
+        
+        return Response(BenutzerSerializer(user).data)
+
+        
 class TemperaturenView(viewsets.ModelViewSet):
     """
     A viewset for viewing and editing user instances.
@@ -42,7 +65,7 @@ class TemperaturenView(viewsets.ModelViewSet):
                        OrderingFilter,
                        )
 
-    search_fields = ("temperatur_id", "datum", "temperatur", "sensor_id")
+    search_fields = ("temperatur_id", "datum", "temperatur", "sensor__adresse")
     ordering_fields =  ("temperatur_id", "datum", "temperatur", "sensor_id")
     
     
@@ -81,7 +104,7 @@ class LogsView(viewsets.ModelViewSet):
                        OrderingFilter,
                        )
 
-    search_fields = ("log_id", "datum", "nachricht","benutzer_id", "sensor_id")
+    search_fields = ("log_id", "datum", "nachricht","benutzer__anmeldename","benutzer__name","sensor__adresse","sensor__adresse","sensor__hersteller__name")
     ordering_fields =  ("log_id", "datum", "nachricht","benutzer_id", "sensor_id")
     
 
@@ -96,7 +119,7 @@ class SensorsView(viewsets.ModelViewSet):
                        OrderingFilter,
                        )
 
-    search_fields = ("sensor_id", "adresse", "serverschrank","max_temp", "hersteller_id")
+    search_fields = ("sensor_id", "adresse", "serverschrank","max_temp", "hersteller__name")
     ordering_fields = ("sensor_id", "adresse", "serverschrank","max_temp", "hersteller_id")
     
 

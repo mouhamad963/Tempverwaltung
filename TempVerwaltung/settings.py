@@ -49,16 +49,17 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
 
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+            'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+
     ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ),
+
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
 }
+
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -71,6 +72,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'TempVerwaltung.urls'
 
+LOGIN_REDIRECT_URL = "api/"
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -97,7 +99,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': "tempverwaltung",
         'USER': "root",
-        'PASSWORD': "Wiz_sYh8wg3Croot",
+        'PASSWORD': "", # data bank password should be put in here
         'HOST': "localhost",
         'PORT': 3306,
         'CONN_MAX_AGE': int(os.environ.get('MYSQL_CONN_MAX_AGE', 3600)),
@@ -144,3 +146,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+
+# Use Django's standard `django.contrib.auth` permissions,
+# or allow read-only access for unauthenticated users.
+'DEFAULT_PERMISSION_CLASSES': [
+    'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+]
+}

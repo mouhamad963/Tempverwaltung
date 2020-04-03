@@ -12,9 +12,9 @@ INSERT INTO `hersteller` (`hersteller_id`, `name`) VALUES
 
 INSERT INTO `sensors` (`sensor_id`, `serverschrank`, `adresse`, `hersteller_id`, `max_temp`) VALUES
 (1, 1, 'Regal-2', 3, 1),
-(2, 1, 'Regal-5', 2, 2),
-(3, 1, 'Regal-5', 1, 1),
-(4, 1, 'Regal-4', 1, 2),
+(2, 2, 'Regal-5', 2, 2),
+(3, 3, 'Regal-5', 1, 1),
+(4, 4, 'Regal-4', 1, 2),
 (5, 1, 'Regel-6', 2, 3);
 
 INSERT INTO `temperaturen` (`temperatur_id`, `sensor_id`, `datum`, `temperatur`) VALUES

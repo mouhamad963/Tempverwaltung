@@ -24,7 +24,7 @@ class Hersteller(models.Model):
     name = models.CharField(max_length=256, blank=True, null=False, default='')
   
     def __str__(self):
-        return self.name
+        return str(self.name)
         
     class Meta:
         managed = True
@@ -39,7 +39,7 @@ class Logs(models.Model):
     benutzer = models.ForeignKey("Benutzer", models.DO_NOTHING)
 
     def __str__(self):
-        return self.log_id + " " + self.datum
+        return str( self.datum) 
     
     class Meta:
         
@@ -56,7 +56,7 @@ class Sensors(models.Model):
     
     
     def __str__(self):
-        return self.hersteller.name + " " + self.adresse
+        return str(self.hersteller.name + " " + self.adresse)
     
     class Meta:
         unique_together = ('adresse', 'serverschrank',)
@@ -72,7 +72,7 @@ class Temperaturen(models.Model):
     
     
     def __str__(self):
-        return self.temperatur 
+        return str(self.temperatur )
     class Meta:
         managed = True
         db_table = 'temperaturen'
