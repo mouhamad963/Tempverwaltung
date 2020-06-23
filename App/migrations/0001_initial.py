@@ -29,6 +29,7 @@ class Migration(migrations.Migration):
                 ('benutzer_id', models.AutoField(primary_key=True, serialize=False)),
                 ('name', models.CharField(blank=True, default='', max_length=256)),
                 ('anmeldename', models.CharField(blank=True, default='', max_length=256)),
+                ('password', models.CharField(blank=True, default='', max_length=256)),
                 ('telefonnr', models.IntegerField(default=1)),
             ],
             options={

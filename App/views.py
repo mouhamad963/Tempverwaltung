@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets,permissions
 from .serializers import BenutzerSerializer,SensorsSerializer,TemperaturenSerializer,LogsSerializer,HerstellerSerializer,RequestLogsSerializer
 from .models import Benutzer,Temperaturen,Logs,Sensors,Hersteller
 from rest_framework_filters.filterset import FilterSet
@@ -7,9 +7,28 @@ from rest_framework.filters import OrderingFilter
 from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-
+from rest_framework.views import APIView
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
+
+
+
+class AuthView(APIView):
+    """
+    A viewset for Authitication a user.
+    """
+    queryset = User.objects.all()
+    def get(self,request):
+        user = self.request.user
+        
+        if user.is_authenticated:
+            return Response({"Authentication":"Success"})
+        else:
+            return Response({"Authentication":"Failed"})
+
+    
+
 
 
 class BenutzerView(viewsets.ModelViewSet):
@@ -35,12 +54,14 @@ class BenutzerView(viewsets.ModelViewSet):
         name = self.request.data["name"]
         anmeldename = self.request.data['anmeldename']
         telefonnr = self.request.data['telefonnr']
+        password = self.request.data['password']
         
         user = self.queryset.create(name=name,anmeldename=anmeldename,telefonnr=telefonnr)
+        user.password = make_password(password)
         user.save()
         
         u = User(username=anmeldename)
-        u.set_password("mnour123")
+        u.set_password(password)
         u.is_superuser = False
         u.is_staff = False
         try:
@@ -91,7 +112,7 @@ class LogsView(viewsets.ModelViewSet):
     """
     A viewset for viewing and editing user instances.
     """
-    queryset =  Logs.objects.all()
+    queryset =  Logs.objects.all().order_by('-datum')
     serializer_class =  LogsSerializer
     def get_serializer_class(self):        
         method = self.request.method

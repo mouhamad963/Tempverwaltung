@@ -3,18 +3,19 @@ from .models import Benutzer,Logs,Sensors,Temperaturen,Hersteller
 from django.db import transaction
 
 class BenutzerSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Benutzer
         fields = ('__all__')
+        extra_kwargs = {'password': {'write_only': True}}
 
 
+    
 class LogsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Logs
         fields = ('__all__')
-        depth = 2
+        depth = 1
 
 
 class SensorsSerializer(serializers.ModelSerializer):

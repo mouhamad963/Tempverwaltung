@@ -7,7 +7,10 @@ class Benutzer(models.Model):
     benutzer_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=256, blank=True, null=False, default='')
     anmeldename = models.CharField(max_length=256, blank=True, null=False, default='')
+    password = models.CharField(max_length=256)
+
     telefonnr = models.IntegerField(default=1)
+    
 
 
     def __str__(self):

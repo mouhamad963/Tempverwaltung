@@ -1,0 +1,404 @@
+openapi: 3.0.0
+info:
+  title: Temperatur Verwaltung API
+  version: v1_from_0.1.0
+  description:  Temperatur Verwaltung API is a RESTful HTTPS API which may be used to access
+    functionality of  Temperatur Verwaltung without using the  Temperatur Verwaltung frontend.__
+ 
+servers:
+  - url: http://127.0.0.1:8000/
+   
+security:
+  - BasicAuth:
+      []
+  - API-token:
+      []
+      
+      
+paths:
+
+  /auth/:
+    get:
+      summary: Authenticate a user.
+      description: Before calling any API function, you have to Authenticate the user first.
+        This may be done by calling this function using basic authentification
+        with your username and password. As result you will get your API
+        Message for success or failed to authenticate
+      operationId: auth_get
+      security:
+        - BasicAuth:
+            []
+      responses:
+        '200':
+          description: OK, user was successfully authenticated. 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Authentication:
+                    type: string
+                    example: Success
+        '403':
+          description: Invalid username/password.
+      tags:
+        - auth
+        
+  '/benutzer/':
+    post:
+      summary: add a new user.
+      operationId: benutzer_post_user
+      security:
+        - API-token:
+            []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                anmeldename:
+                  type: string
+                telefonnr:
+                  type: integer
+                password:
+                  type: string
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  benutzer_id:
+                    type: integer
+                  name:
+                    type: string
+                  anmeldename:
+                   type: string
+                  telefonnr:
+                    type: integer
+      tags:
+        - benutzer 
+        
+  '/benutzer/{benutzer_id}':
+    get:
+      summary: show the details of the current user.
+      operationId: benutzer_get
+      security:
+        - API-token:
+            []
+      parameters:
+          - $ref: '#/components/parameters/PageParameter'
+          - $ref: '#/components/parameters/PageSizeParameter'
+          - $ref: '#/components/parameters/SearchParameter'
+          - $ref: '#/components/parameters/OrderingParameter'
+          - name: benutzer_id
+            required: true
+            in: path
+            description: The ID of the user where the configrations saved.
+            schema:
+              type: integer
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  benutzer_id:
+                    type: integer
+                  name:
+                    type: string
+                  anmeldename:
+                   type: string
+                  telefonnr:
+                    type: integer
+                    
+    patch:
+      summary: Set the user as current user or change user parameters.
+      operationId: benutzer_patch
+      security:
+        - API-token:
+            []
+      parameters:
+          - $ref: '#/components/parameters/PageParameter'
+          - $ref: '#/components/parameters/PageSizeParameter'
+          - $ref: '#/components/parameters/SearchParameter'
+          - $ref: '#/components/parameters/OrderingParameter'
+          - name: benutzer_id
+            required: true
+            in: path
+            description: The ID of the user where the configrations saved.
+            schema:
+              type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                anmeldename:
+                  type: string
+                telefonnr:
+                  type: integer
+                password:
+                  type: string
+                  
+      responses:
+        '200':
+          description: OK, user detalis changed.
+      tags:
+        - intern  
+    delete:   
+      summary: delete the user.
+      operationId: benutzer_delete
+      security:
+         - API-token: []
+      parameters:
+           - $ref: '#/components/parameters/ClientContextParameter'
+           - $ref: '#/components/parameters/ContextTypeParameter'
+           - name: benutzer_id
+             required: true
+             in: path
+             description: The ID of the user where the configrations saved.
+             schema:
+               type: integer
+        
+      responses:
+         '204':
+           description: OK, user config deleted.
+           
+             
+  '/hersteller/':
+    post:
+      summary: add a new hersteller.
+      operationId: hersteller_post
+      security:
+        - API-token:
+            []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+               
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hersteller_id:
+                    type: integer
+                  name:
+                    type: string
+                  
+      tags:
+        - herstller 
+  '/sensors/':
+    post:
+      summary: add a new sensors.
+      operationId: sensors_post
+      security:
+        - API-token:
+            []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+               
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hersteller_id:
+                    type: integer
+                  name:
+                    type: string
+                  
+      tags:
+        - sensors        
+  '/herstller/{sensors_id}':
+    get:
+      summary: show the details of the current herstller.
+      operationId: herstller_get
+      security:
+        - API-token:
+            []
+      parameters:
+          - $ref: '#/components/parameters/PageParameter'
+          - $ref: '#/components/parameters/PageSizeParameter'
+          - $ref: '#/components/parameters/SearchParameter'
+          - $ref: '#/components/parameters/OrderingParameter'
+          - name: sensors_id
+            required: true
+            in: path
+            description: The ID of the herstller where the configrations saved.
+            schema:
+              type: integer
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  benutzer_id:
+                    type: integer
+                  name:
+                    type: string
+    patch:
+      summary: change the herstller configrations.
+      operationId: herstller_patch
+      security:
+        - API-token:
+            []
+      parameters:
+          - $ref: '#/components/parameters/PageParameter'
+          - $ref: '#/components/parameters/PageSizeParameter'
+          - $ref: '#/components/parameters/SearchParameter'
+          - $ref: '#/components/parameters/OrderingParameter'
+          - name: sensors_id
+            required: true
+            in: path
+            description: The ID of the herstller where the configrations saved.
+            schema:
+              type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: OK, herstller detalis changed.
+      tags:
+        - herstller  
+    delete:   
+      summary: delete an herstlle.
+      operationId: herstller_delete
+      security:
+         - API-token: []
+      parameters:
+           - $ref: '#/components/parameters/ClientContextParameter'
+           - $ref: '#/components/parameters/ContextTypeParameter'
+           - name: sensors_id
+             required: true
+             in: path
+             description: The ID of the herstller where the configrations saved.
+             schema:
+               type: integer
+        
+      responses:
+         '204':
+           description: OK, herstller config deleted.
+           
+ 
+  '/herstller/{herstller_id}':
+    get:
+      summary: show the details of the current herstller.
+      operationId: herstller_get
+      security:
+        - API-token:
+            []
+      parameters:
+          - $ref: '#/components/parameters/PageParameter'
+          - $ref: '#/components/parameters/PageSizeParameter'
+          - $ref: '#/components/parameters/SearchParameter'
+          - $ref: '#/components/parameters/OrderingParameter'
+          - name: herstller_id
+            required: true
+            in: path
+            description: The ID of the herstller where the configrations saved.
+            schema:
+              type: integer
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  benutzer_id:
+                    type: integer
+                  name:
+                    type: string
+    patch:
+      summary: change the herstller configrations.
+      operationId: herstller_patch
+      security:
+        - API-token:
+            []
+      parameters:
+          - $ref: '#/components/parameters/PageParameter'
+          - $ref: '#/components/parameters/PageSizeParameter'
+          - $ref: '#/components/parameters/SearchParameter'
+          - $ref: '#/components/parameters/OrderingParameter'
+          - name: herstller_id
+            required: true
+            in: path
+            description: The ID of the herstller where the configrations saved.
+            schema:
+              type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: OK, herstller detalis changed.
+      tags:
+        - herstller  
+    delete:   
+      summary: delete an herstlle.
+      operationId: herstller_delete
+      security:
+         - API-token: []
+      parameters:
+           - $ref: '#/components/parameters/ClientContextParameter'
+           - $ref: '#/components/parameters/ContextTypeParameter'
+           - name: herstller_id
+             required: true
+             in: path
+             description: The ID of the herstller where the configrations saved.
+             schema:
+               type: integer
+        
+      responses:
+         '204':
+           description: OK, herstller config deleted.
+           
+ 
+ 
+                   
+                  
+  

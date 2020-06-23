@@ -40,11 +40,13 @@ INSTALLED_APPS = [
     'rest_framework_filters',
     'django_filters',
     'App',
+    'rest_framework_swagger'
 ]
 
 
 REST_FRAMEWORK = {
-
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.openapi.AutoSchema',
+    
     'DEFAULT_PAGINATION_CLASS': 'App.utils.pagination.LargeResultsSetPagination',
     'PAGE_SIZE': 10,
 
@@ -99,7 +101,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': "tempverwaltung",
         'USER': "root",
-        'PASSWORD': "", # data bank password should be put in here
+        'PASSWORD': "Wiz_sYh8wg3Croot", # data bank password should be put in here
         'HOST': "localhost",
         'PORT': 3306,
         'CONN_MAX_AGE': int(os.environ.get('MYSQL_CONN_MAX_AGE', 3600)),
@@ -152,6 +154,6 @@ REST_FRAMEWORK = {
 # Use Django's standard `django.contrib.auth` permissions,
 # or allow read-only access for unauthenticated users.
 'DEFAULT_PERMISSION_CLASSES': [
-    'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
 ]
 }
